@@ -33,7 +33,7 @@ output "vpc" {
 ## Required: vpc_id, 
 ##=====================================
 
-variable "public_subnet_1a" {
+variable "pub_sub_1a" {
   type = object({
     cidr = string
     name = string
@@ -41,7 +41,7 @@ variable "public_subnet_1a" {
   })
 }
 
-variable "private_subnet_1a" {
+variable "pri_sub_1a" {
   type = object({
     cidr = string
     name = string
@@ -49,39 +49,57 @@ variable "private_subnet_1a" {
   })
 }
 
-resource "aws_subnet" "public_subnet_1a" {
+resource "aws_subnet" "pub_sub_1a" {
   vpc_id = aws_vpc.vpc.id
-  cidr_block = var.public_subnet_1a.cidr
-  availability_zone = var.public_subnet_1a.az  
+  cidr_block = var.pub_sub_1a.cidr
+  availability_zone = var.pub_sub_1a.az  
 
   tags = {
-    Name = var.public_subnet_1a.name
+    Name = var.pub_sub_1a.name
   } 
 }
 
-resource "aws_subnet" "private_subnet_1a" {
+resource "aws_subnet" "pri_sub_1a" {
   vpc_id = aws_vpc.vpc.id
-  cidr_block = var.private_subnet_1a.cidr
-  availability_zone = var.private_subnet_1a.az
+  cidr_block = var.pri_sub_1a.cidr
+  availability_zone = var.pri_sub_1a.az
 
   tags = {
-    Name = var.private_subnet_1a.name
+    Name = var.pri_sub_1a.name
   }
 }
 
-output "public_subnet_1a" {
+output "pub_sub_1a" {
   value = {
-    subnet_id = aws_subnet.public_subnet_1a.id
-    az = aws_subnet.public_subnet_1a.availability_zone 
-    tags = aws_subnet.public_subnet_1a.tags_all
+    subnet_id = aws_subnet.pub_sub_1a.id
+    az = aws_subnet.pub_sub_1a.availability_zone 
+    tags = aws_subnet.pub_sub_1a.tags_all
   }
 }
 
-output "private_subnet_1a" {
+output "pri_sub_1a" {
   value = {
-    subnet_id = aws_subnet.private_subnet_1a.id
-    az = aws_subnet.private_subnet_1a.availability_zone 
-    tags = aws_subnet.private_subnet_1a.tags_all
+    subnet_id = aws_subnet.pri_sub_1a.id
+    az = aws_subnet.pri_sub_1a.availability_zone 
+    tags = aws_subnet.pri_sub_1a.tags_all
   }
 }
 
+##==============================
+## Resourece: Internet Gateway
+## Ref: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway
+##==============================
+
+variable igw_name {}
+
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.vpc.id
+
+  tags = {
+    Name = var.igw_name
+  }
+}
+
+output "igw" {
+  value = aws_internet_gateway.igw.id
+}
