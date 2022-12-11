@@ -42,4 +42,13 @@ nat_name = "tf-nat"
 ##=========================
 ## alb.tf
 ##=========================
+
+# ALB
 alb_name = "tf-alb"
+
+# ALB Target Group
+alb_target_name = "alb-target"
+
+# ALB listener
+alb_listener_name = "tf-alb-listener"
+
