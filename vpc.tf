@@ -41,6 +41,13 @@ variable "pub_sub_1a" {
   })
 }
 
+variable "pub_sub_1c" {
+  type = object({
+    cidr = string
+    name = string
+    az = string
+  })
+}
 variable "pri_sub_1a" {
   type = object({
     cidr = string
@@ -56,6 +63,16 @@ resource "aws_subnet" "pub_sub_1a" {
 
   tags = {
     Name = var.pub_sub_1a.name
+  }
+}
+
+resource "aws_subnet" "pub_sub_1c" {
+  vpc_id = aws_vpc.vpc.id
+  cidr_block = var.pub_sub_1c.cidr
+  availability_zone = var.pub_sub_1c.az
+
+  tags = {
+    Name = var.pub_sub_1c.name
   }
 }
 

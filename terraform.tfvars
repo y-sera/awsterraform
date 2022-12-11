@@ -11,6 +11,11 @@ pub_sub_1a = {
  az = "ap-northeast-1a"
 }
 
+pub_sub_1c = {
+ cidr = "192.168.0.32/27"
+ name = "tf-pub-sub-1c"
+ az = "ap-northeast-1c"
+}
 
 ## private subnet
 pri_sub_1a = {
@@ -32,3 +37,9 @@ eip_name = "tf-eip"
 
 ## NAT Gateway
 nat_name = "tf-nat"
+
+
+##=========================
+## alb.tf
+##=========================
+alb_name = "tf-alb"
