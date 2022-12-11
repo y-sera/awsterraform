@@ -23,16 +23,12 @@ pri_sub_1a = {
 igw_name = "tf-igw"
   
 
-
-## Internet Attachement
 ## Network ACL
-## Network ACL rule
-## Network ACL attachement
-## NAT Gateway
+nacl_name = "tf-nacl"
 
-## ALB
-## ALB listener
-## ALB listener rule
-## ALB target group
-## ALB target group attachment
-## 
+
+## Elastic IP (for NAT Gateway)
+eip_name = "tf-eip"
+
+## NAT Gateway
+nat_name = "tf-nat"
