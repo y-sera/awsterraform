@@ -8,7 +8,7 @@ resource "aws_lb" "alb" {
   name = var.alb_name
   internal = false
   load_balancer_type = "application"
-#  security_groups = 
+  security_groups = [aws_security_group.sg_alb.id]
 
   subnet_mapping {
     subnet_id = aws_subnet.pub_sub_1a.id
@@ -23,7 +23,9 @@ resource "aws_lb" "alb" {
   }
 }
 
-
+output "alb_dns_name" {
+  value = aws_lb.alb.dns_name
+}
 
 ##================================
 ## Resource: ELB Target Group
@@ -61,4 +63,17 @@ resource "aws_lb_listener" "alb_listener" {
     Name = var.alb_listener_name
   }
 }
+
+
+##==================================
+## Resource: ELB Target attachement
+## Ref: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table
+##==================================
+
+resource "aws_lb_target_group_attachment" "alb_target_attach" {
+  target_group_arn = aws_lb_target_group.alb_target.arn
+  target_id = aws_instance.ec2.id 
+  port = 80
+}
+
 

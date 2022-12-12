@@ -26,19 +26,19 @@ resource "aws_security_group" "sg_ec2" {
 
 resource "aws_security_group_rule" "sg_rule_alb_ingress" {
   type = "ingress"
-  from_port = 0
+  from_port = 80
   to_port = 80
   protocol = "tcp"
-  cidr_blocks = [aws_vpc.vpc.cidr_block]
+  cidr_blocks = ["0.0.0.0/0"]
   security_group_id = aws_security_group.sg_alb.id
 }
 
 resource "aws_security_group_rule" "sg_rule_egress_alb" {
   type = "egress"
-  from_port = 0 
-  to_port = 0
-  protocol = "tcp"
-  cidr_blocks = [aws_vpc.vpc.cidr_block]
+  from_port = "-1" 
+  to_port = "-1"
+  protocol = "-1"
+  source_security_group_id = aws_security_group.sg_ec2.id
   security_group_id = aws_security_group.sg_alb.id
 }
 
@@ -53,9 +53,9 @@ resource "aws_security_group_rule" "sg_rule_ingress_ec2" {
 
 resource "aws_security_group_rule" "sg_rule_egress_ec2" {
   type = "egress"
-  from_port = 0 
-  to_port = 0
-  protocol = "tcp"
+  from_port = "-1"
+  to_port = "-1"
+  protocol = "-1"
   cidr_blocks = ["0.0.0.0/0"]
   security_group_id = aws_security_group.sg_ec2.id
 }

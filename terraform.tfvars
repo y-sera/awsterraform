@@ -38,6 +38,10 @@ eip_name = "tf-eip"
 ## NAT Gateway
 nat_name = "tf-nat"
 
+## Route Table
+rtb_pub_name = "rtb_pub"
+rtb_pri_name = "rtb_pri"
+
 
 ##=========================
 ## alb.tf
@@ -79,4 +83,5 @@ sg_alb_name = "sg_alb"
 
 # security group for ec2
 sg_ec2_name = "sg_ec2"
+
 

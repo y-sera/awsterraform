@@ -72,6 +72,7 @@ resource "aws_instance" "ec2" {
   instance_type = "t2.micro"
   subnet_id = aws_subnet.pri_sub_1a.id
   iam_instance_profile = aws_iam_instance_profile.ec2_instance_profile.id
+  vpc_security_group_ids = [aws_security_group.sg_ec2.id]
 
   tags = {
     Name = var.ec2_name

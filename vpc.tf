@@ -19,11 +19,7 @@ resource "aws_vpc" "vpc" {
 }
 
 output "vpc" {
-  value = {
-    cidr_block = aws_vpc.vpc.cidr_block
-    id = aws_vpc.vpc.id
-    tags = aws_vpc.vpc.tags_all
-  }
+  value = aws_vpc.vpc.cidr_block
 }
 
 
@@ -87,19 +83,11 @@ resource "aws_subnet" "pri_sub_1a" {
 }
 
 output "pub_sub_1a" {
-  value = {
-    subnet_id = aws_subnet.pub_sub_1a.id
-    az = aws_subnet.pub_sub_1a.availability_zone
-    tags = aws_subnet.pub_sub_1a.tags_all
-  }
+  value =  aws_subnet.pub_sub_1a.id
 }
 
 output "pri_sub_1a" {
-  value = {
-    subnet_id = aws_subnet.pri_sub_1a.id
-    az = aws_subnet.pri_sub_1a.availability_zone
-    tags = aws_subnet.pri_sub_1a.tags_all
-  }
+  value =  aws_subnet.pri_sub_1a.id
 }
 
 ##==============================
@@ -184,3 +172,68 @@ resource "aws_nat_gateway" "nat" {
     Name = var.nat_name
   }
 }
+
+
+##================================
+## Resource: Route Table
+## Ref: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table
+## Requeire: vpc_id
+##================================
+
+variable "rtb_pub_name" {}
+variable "rtb_pri_name" {}
+
+resource "aws_route_table" "rtb_pub" {
+  vpc_id = aws_vpc.vpc.id
+
+  tags = {
+    Name = var.rtb_pub_name
+  }
+}
+
+resource "aws_route_table" "rtb_pri" {
+  vpc_id = aws_vpc.vpc.id
+
+  tags = {
+    Name = var.rtb_pri_name
+  }
+}
+
+##==================================
+## Resource: Route
+## Ref: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table
+##==================================
+
+resource "aws_route" "route_pub" {
+  route_table_id = aws_route_table.rtb_pub.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = aws_internet_gateway.igw.id
+}
+
+resource "aws_route" "route_pri" {
+  route_table_id = aws_route_table.rtb_pri.id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id = aws_nat_gateway.nat.id
+}
+
+
+##===================================
+## Resource: aws_route_table_association
+## Ref: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table
+##===================================
+
+resource "aws_route_table_association" "rtb_pub_association_1a" {
+  subnet_id = aws_subnet.pub_sub_1a.id
+  route_table_id = aws_route_table.rtb_pub.id
+}
+
+resource "aws_route_table_association" "rtb_pub_association_1c" {
+  subnet_id = aws_subnet.pub_sub_1c.id
+  route_table_id = aws_route_table.rtb_pub.id
+}
+
+resource "aws_route_table_association" "rtb_pri_bassociation_1a" {
+  subnet_id = aws_subnet.pri_sub_1a.id
+  route_table_id = aws_route_table.rtb_pri.id
+}
+
