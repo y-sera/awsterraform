@@ -70,3 +70,13 @@ ec2_instance_profile = "tf-ec2-instance-profile"
 ec2_name = "tf-ec2"
 
 
+##=======================
+## sg.tf
+##=======================
+
+# security group for alb
+sg_alb_name = "sg_alb"
+
+# security group for ec2
+sg_ec2_name = "sg_ec2"
+
