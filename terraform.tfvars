@@ -64,9 +64,6 @@ alb_listener_name = "tf-alb-listener"
 # ec2 role
 ec2_role_name = "tf-ec2-ssm-role"
 
-# ec2 policy attachment to role
-ec2_policy_attach_name = "tf-policy-attach"
-
 # ec2 instance profile
 ec2_instance_profile = "tf-ec2-instance-profile"
 
