@@ -34,11 +34,8 @@ EOF
 ## Ref: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy_attachment
 ##==================================
 
-variable "ec2_policy_attach_name" {}
-
-resource "aws_iam_policy_attachment" "ec2_policy_attach" {
-  name = var.ec2_policy_attach_name
-  roles = [aws_iam_role.ec2_role.name]
+resource "aws_iam_role_policy_attachment" "ec2_role_policy_attach" {
+  role = aws_iam_role.ec2_role.name
   policy_arn = data.aws_iam_policy.ssm_policy.arn
 }
 

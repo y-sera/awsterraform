@@ -9,7 +9,7 @@ variable "sg_ec2_name" {}
 resource "aws_security_group" "sg_alb" {
   name = var.sg_alb_name
   description = "Managed by Terraform. for alb."
-  vpc_id = aws_vpc.vpc.id
+  vpc_id = aws_vpc.vpc.id 
 }
 
 resource "aws_security_group" "sg_ec2" {
@@ -61,3 +61,11 @@ resource "aws_security_group_rule" "sg_rule_egress_ec2" {
 }
 
 
+##=================================
+## Resource: Default Security Group
+## Ref:
+##=================================
+
+resource "aws_default_security_group" "default_sg" {
+  vpc_id = aws_vpc.vpc.id
+}
